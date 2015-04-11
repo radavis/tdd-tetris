@@ -9,19 +9,38 @@ public class Board {
     private final int rows;
     private final int columns;
 
+    private boolean hasFalling;
+    private Block block;
+
     public Board(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
+        this.hasFalling = false;
     }
 
     public String toString() {
         String s = "";
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < columns; col++) {
-                s += "?";
+                if (this.hasFalling && this.block.x == col && this.block.y == row) {
+                    s += this.block.toString();
+                } else {
+                    s += ".";
+                }
             }
             s += "\n";
         }
         return s;
+    }
+
+    public Boolean hasFalling() {
+        return this.block != null;
+    }
+
+    public void drop(Block block) {
+        this.block = block;
+        this.hasFalling = true;
+        this.block.x = columns / 2;
+        this.block.y = 0;
     }
 }
